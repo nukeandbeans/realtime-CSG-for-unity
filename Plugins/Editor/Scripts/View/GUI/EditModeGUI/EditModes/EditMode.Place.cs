@@ -1315,7 +1315,7 @@ namespace RealtimeCSG
 
 			PaintUtility.DrawDottedLine(rotateCenter, rotateMousePosition, ColorSettings.BoundsEdgeHover);
 
-			if ((worldSpacePivotCenter - rotateCenter).sqrMagnitude > MathConstants.EqualityEpsilon)
+			if ((worldSpacePivotCenter - rotateCenter).magnitude > MathConstants.EqualityEpsilon)
 			{
 				PaintUtility.DrawDottedLine(worldSpacePivotCenter, rotateCenter, ColorSettings.BoundsEdgeHover);
 				PaintUtility.DrawProjectedPivot(camera, rotateCenter, ColorSettings.BoundsEdgeHover);
