@@ -67,6 +67,7 @@ namespace RealtimeCSG
 
 		static public Vector3 CleanPosition(Vector3 position)
 		{
+			/*
 			float signX = Mathf.Sign(position.x);
 			float signY = Mathf.Sign(position.y);
 			float signZ = Mathf.Sign(position.z);
@@ -100,7 +101,8 @@ namespace RealtimeCSG
 			if (!float.IsNaN(fractPosX) && !float.IsInfinity(fractPosX)) position.x = (intPosX + fractPosX) * signX;
 			if (!float.IsNaN(fractPosY) && !float.IsInfinity(fractPosY)) position.y = (intPosY + fractPosY) * signY;
 			if (!float.IsNaN(fractPosZ) && !float.IsInfinity(fractPosZ)) position.z = (intPosZ + fractPosZ) * signZ;
-			
+			*/
+
 			return position;
 		}
         
