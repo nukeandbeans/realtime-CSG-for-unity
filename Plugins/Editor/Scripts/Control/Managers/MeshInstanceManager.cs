@@ -104,6 +104,9 @@ namespace InternalRealtimeCSG
 
 		static void Initialize(GeneratedMeshes container, GeneratedMeshInstance meshInstance)
 		{
+			// Retain layer
+			meshInstance.gameObject.layer = container.gameObject.layer;
+
 			container.AddMeshInstance(meshInstance);
 		}
 
@@ -322,6 +325,9 @@ namespace InternalRealtimeCSG
 
 			var generatedMeshesTransform = generatedMeshesObject.transform;
 			generatedMeshesTransform.SetParent(model.transform, false);
+
+			// Retain layer
+			generatedMeshesObject.layer = model.gameObject.layer;
 
 			generatedMeshesObject.SetActive(true);
 
