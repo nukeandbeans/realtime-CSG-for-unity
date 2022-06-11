@@ -225,6 +225,8 @@ namespace RealtimeCSG
 
         static public int                   MaxSphereSplits         = 9;
 
+        static public bool                  SaveMeshesInSceneFiles  = true;
+
         static public int					CircleSides				= 18;
         static public int					MaxCircleSides			= 144;
         static public float					CircleOffset			= 0;
@@ -630,6 +632,7 @@ namespace RealtimeCSG
             AutoCommitExtrusion			= EditorPrefs.GetBool("AutoCommitExtrusion", false);
 
             MaxSphereSplits				= Mathf.Max(3, EditorPrefs.GetInt("MaxSphereSplits", 9));
+            SaveMeshesInSceneFiles      = EditorPrefs.GetBool("SaveMeshesInSceneFiles", true);
 
             CircleSides					= Mathf.Max(3, EditorPrefs.GetInt("CircleSides",	18));
             MaxCircleSides				= Mathf.Max(3, EditorPrefs.GetInt("MaxCircleSides", 144));
@@ -720,6 +723,7 @@ namespace RealtimeCSG
             EditorPrefs.SetInt  ("SnapMode",                (int)RealtimeCSG.CSGSettings.SnapMode);
 
             EditorPrefs.SetInt	("MaxSphereSplits",			Mathf.Max(3, MaxSphereSplits));
+            EditorPrefs.SetBool ("SaveMeshesInSceneFiles",  SaveMeshesInSceneFiles);
 
             EditorPrefs.SetInt	("CircleSides",				Mathf.Max(3, CircleSides));
             EditorPrefs.SetInt	("MaxCircleSides",			Mathf.Max(3, MaxCircleSides));

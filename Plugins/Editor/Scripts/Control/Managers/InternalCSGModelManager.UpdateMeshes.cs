@@ -245,6 +245,14 @@ namespace RealtimeCSG
 					   ref outputHasGeneratedNormals,
 					   ref sharedMesh,
                        editorOnly);
+
+			if (!CSGSettings.SaveMeshesInSceneFiles)
+			{
+				// If is prefab scene, allow save
+				if (string.IsNullOrEmpty(model.gameObject.scene.path) && sharedMesh != null)
+					sharedMesh.hideFlags &= ~HideFlags.DontSaveInEditor;
+			}
+
 			return true;
 		}
 
