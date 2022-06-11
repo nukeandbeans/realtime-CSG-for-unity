@@ -225,7 +225,7 @@ namespace RealtimeCSG
 
         static public int                   MaxSphereSplits         = 9;
 
-        static public bool                  SaveMeshesInSceneFiles  = true;
+        static public bool                  SaveMeshesInSceneFiles  = false;
 
         static public int					CircleSides				= 18;
         static public int					MaxCircleSides			= 144;
@@ -632,7 +632,7 @@ namespace RealtimeCSG
             AutoCommitExtrusion			= EditorPrefs.GetBool("AutoCommitExtrusion", false);
 
             MaxSphereSplits				= Mathf.Max(3, EditorPrefs.GetInt("MaxSphereSplits", 9));
-            SaveMeshesInSceneFiles      = EditorPrefs.GetBool("SaveMeshesInSceneFiles", true);
+            SaveMeshesInSceneFiles      = EditorPrefs.GetBool("SaveMeshesInSceneFiles", false);
 
             CircleSides					= Mathf.Max(3, EditorPrefs.GetInt("CircleSides",	18));
             MaxCircleSides				= Mathf.Max(3, EditorPrefs.GetInt("MaxCircleSides", 144));
