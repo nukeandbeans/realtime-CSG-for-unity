@@ -176,7 +176,7 @@ namespace RealtimeCSG
 		#region RefreshMeshes
 		public static void RefreshMeshes()
 		{
-			if (EditorApplication.isPlayingOrWillChangePlaymode)
+			if (RealtimeCSG.CSGModelManager.IsInPlayMode)
 				return;
 
 			if (skipCheckForChanges)
@@ -417,8 +417,7 @@ namespace RealtimeCSG
 		static bool inUpdateMeshes = false;
 		public static bool UpdateMeshes(System.Text.StringBuilder text = null, bool forceUpdate = false)
 		{
-			if (EditorApplication.isPlaying
-				|| EditorApplication.isPlayingOrWillChangePlaymode)
+			if (RealtimeCSG.CSGModelManager.IsInPlayMode)
 				return false;
 			
 			if (inUpdateMeshes)
