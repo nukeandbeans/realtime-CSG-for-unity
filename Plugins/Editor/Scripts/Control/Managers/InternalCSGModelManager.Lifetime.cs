@@ -157,8 +157,12 @@ namespace RealtimeCSG
 #if UNITY_EDITOR
 
 		[UnityEditor.InitializeOnEnterPlayMode]
-		public static void OnSceneLoad()
+		public static void OnEnterPlayMode()
 		{
+			// If saving meshes to scene files, we don't need to dynamically rebuild on scene changes
+			if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles)
+				return;
+
 			static void sceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
 			{
 				RealtimeCSG.CSGModelManager.AllowInEditorPlayMode = true;

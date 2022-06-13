@@ -783,7 +783,7 @@ namespace InternalRealtimeCSG
             hasGeneratedNormals = false;
 			if (!recreateMeshes &&sharedMesh)
 			{
-				if (!CSGSettings.SaveMeshesInSceneFiles)
+				if (!CSGProjectSettings.Instance.SaveMeshesInSceneFiles)
 					sharedMesh.hideFlags |= HideFlags.DontSaveInEditor;
 				sharedMesh.Clear(keepVertexLayout: true);
 				return;
@@ -794,7 +794,7 @@ namespace InternalRealtimeCSG
 			sharedMesh.MarkDynamic();
             if (editorOnly)
                 sharedMesh.hideFlags = HideFlags.DontSaveInBuild;
-			if (!CSGSettings.SaveMeshesInSceneFiles)
+			if (!CSGProjectSettings.Instance.SaveMeshesInSceneFiles)
 				sharedMesh.hideFlags |= HideFlags.DontSaveInEditor;
         }
 

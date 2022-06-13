@@ -246,7 +246,7 @@ namespace RealtimeCSG
 					   ref sharedMesh,
                        editorOnly);
 
-			if (!CSGSettings.SaveMeshesInSceneFiles)
+			if (!CSGProjectSettings.Instance.SaveMeshesInSceneFiles)
 			{
 				// If is prefab scene, allow save
 				if (string.IsNullOrEmpty(model.gameObject.scene.path) && sharedMesh != null)
@@ -590,5 +590,31 @@ namespace RealtimeCSG
 			}
 		}
 		#endregion
+
+		#region Destroy meshes
+		/// <summary>
+		/// Used to destroy any helper surface meshes in the current scene. Useful because they don't get destroyed otherwise, and stay in the Scene file.
+		/// </summary>
+		[MenuItem("Edit/Realtime-CSG/Destroy All Helper Surface Meshes In Scene")]
+		public static void DestroyAllHelperSurfaceCSGMeshes()
+		{
+			var allMeshesInScene = UnityEngine.Object.FindObjectsOfType<Mesh>(true);
+
+			// regex matches all possible names for the helper surfaces that we can generate
+			var nameMatch = new System.Text.RegularExpressions.Regex(
+				$"^{System.Text.RegularExpressions.Regex.Escape("<")}" +
+				$"(?:{string.Join("|", System.Linq.Enumerable.Select(renderSurfaceMeshNames, n => System.Text.RegularExpressions.Regex.Escape(n)))})" +
+				$" generated -?[0-9]+{System.Text.RegularExpressions.Regex.Escape(">")}$",
+				System.Text.RegularExpressions.RegexOptions.Compiled);
+
+			foreach (var mesh in allMeshesInScene)
+			{
+				if (nameMatch.IsMatch(mesh.name))
+				{
+					Undo.DestroyObjectImmediate(mesh);
+				}
+			}
+		}
+		#endregion Destroy meshes
 	}
 }
