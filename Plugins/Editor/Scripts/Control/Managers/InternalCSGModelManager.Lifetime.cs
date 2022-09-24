@@ -163,22 +163,29 @@ namespace RealtimeCSG
 			if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles)
 				return;
 
-
-			if (External == null ||
-				External.ResetCSG == null)
+			static bool ensureExternalMethodsPopulated()
 			{
-				NativeMethodBindings.RegisterUnityMethods();
-				NativeMethodBindings.RegisterExternalMethods();
-			}
+				if (External == null ||
+					External.ResetCSG == null)
+				{
+					NativeMethodBindings.RegisterUnityMethods();
+					NativeMethodBindings.RegisterExternalMethods();
+				}
 
-			if (External == null)
-            {
-				Debug.LogError("RealtimeCSG: Cannot rebuild meshes for some reason. External modules not loaded. Please save meshes into the Scene.");
-				return;
+				if (External == null)
+				{
+					Debug.LogError("RealtimeCSG: Cannot rebuild meshes for some reason. External modules not loaded. Please save meshes into the Scene.");
+					return false;
+				}
+
+				return true;
 			}
 
 			static void rebuildMeshes()
             {
+				if (!ensureExternalMethodsPopulated())
+					return;
+
 				RealtimeCSG.CSGModelManager.AllowInEditorPlayMode = true;
 				InternalCSGModelManager.Shutdown();
 				DoForcedMeshUpdate();
@@ -201,6 +208,9 @@ namespace RealtimeCSG
 					rebuildMeshes();
 				}
 			}
+
+			if (!ensureExternalMethodsPopulated())
+				return;
 
 			EditorApplication.playModeStateChanged += onPlayModeChange;
 			UnityEngine.SceneManagement.SceneManager.sceneLoaded += sceneLoaded;
