@@ -132,18 +132,20 @@ namespace InternalRealtimeCSG
 
                 if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
                     UnityEngine.Object.DestroyImmediate(meshContainer);
+                else
+                    meshContainer.hideFlags |= HideFlags.HideInHierarchy | HideFlags.HideInInspector;
             }
 
 
-            if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
+            var meshInstances = SceneQueryUtility.GetAllComponentsInScene<GeneratedMeshInstance>(currentScene);
+            foreach (var meshInstance in meshInstances)
             {
-                var meshInstances = SceneQueryUtility.GetAllComponentsInScene<GeneratedMeshInstance>(currentScene);
-                foreach (var meshInstance in meshInstances)
+                if (meshInstance)
                 {
-                    if (meshInstance)
-                    {
+                    if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
                         UnityEngine.Object.DestroyImmediate(meshInstance);
-                    }
+                    else
+                        meshInstance.hideFlags |= HideFlags.HideInHierarchy | HideFlags.HideInInspector;
                 }
             }
 
@@ -178,23 +180,24 @@ namespace InternalRealtimeCSG
                 if (gameObject.CompareTag("Untagged"))
                     removableGameObjects.Add(gameObject);
                 
-                if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
-                    if (csgnode)
+                if (csgnode)
+                {
+                    if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
                         UnityEngine.Object.DestroyImmediate(csgnode);
+                    else
+                        csgnode.hideFlags |= HideFlags.HideInHierarchy | HideFlags.HideInInspector;
+                }
             }
 
-
-            if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
+            var removableTransforms = new HashSet<Transform>();
+            for (int i = 0; i < removableGameObjects.Count; i++)
             {
-                var removableTransforms = new HashSet<Transform>();
-                for (int i = 0; i < removableGameObjects.Count; i++)
-                {
-                    var gameObject = removableGameObjects[i];
-                    var transform = gameObject.transform;
-                    if (removableTransforms.Contains(transform))
-                        continue;
+                var gameObject = removableGameObjects[i];
+                var transform = gameObject.transform;
+                if (removableTransforms.Contains(transform))
+                    continue;
+                if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
                     RemoveWithChildrenIfPossible(transform, removableTransforms);
-                }
             }
         }
 
