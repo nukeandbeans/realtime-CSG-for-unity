@@ -130,16 +130,20 @@ namespace InternalRealtimeCSG
                     }
                 }
 
-                UnityEngine.Object.DestroyImmediate(meshContainer);
+                if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
+                    UnityEngine.Object.DestroyImmediate(meshContainer);
             }
 
 
-            var meshInstances = SceneQueryUtility.GetAllComponentsInScene<GeneratedMeshInstance>(currentScene);
-            foreach (var meshInstance in meshInstances)
+            if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
             {
-                if (meshInstance)
+                var meshInstances = SceneQueryUtility.GetAllComponentsInScene<GeneratedMeshInstance>(currentScene);
+                foreach (var meshInstance in meshInstances)
                 {
-                    UnityEngine.Object.DestroyImmediate(meshInstance);
+                    if (meshInstance)
+                    {
+                        UnityEngine.Object.DestroyImmediate(meshInstance);
+                    }
                 }
             }
 
@@ -173,18 +177,24 @@ namespace InternalRealtimeCSG
                 } else
                 if (gameObject.CompareTag("Untagged"))
                     removableGameObjects.Add(gameObject);
-                if (csgnode)
-                    UnityEngine.Object.DestroyImmediate(csgnode);
+                
+                if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
+                    if (csgnode)
+                        UnityEngine.Object.DestroyImmediate(csgnode);
             }
 
-            var removableTransforms = new HashSet<Transform>();
-            for (int i = 0; i < removableGameObjects.Count; i++)
+
+            if (CSGProjectSettings.Instance.SaveMeshesInSceneFiles || !EditorApplication.isPlayingOrWillChangePlaymode)
             {
-                var gameObject = removableGameObjects[i];
-                var transform = gameObject.transform;
-                if (removableTransforms.Contains(transform))
-                    continue;
-                RemoveWithChildrenIfPossible(transform, removableTransforms);
+                var removableTransforms = new HashSet<Transform>();
+                for (int i = 0; i < removableGameObjects.Count; i++)
+                {
+                    var gameObject = removableGameObjects[i];
+                    var transform = gameObject.transform;
+                    if (removableTransforms.Contains(transform))
+                        continue;
+                    RemoveWithChildrenIfPossible(transform, removableTransforms);
+                }
             }
         }
 
